@@ -1,0 +1,718 @@
+if game.Players.LocalPlayer.PlayerGui:FindFirstChild("Katty") then 
+    error("Script cannot be executed multiple times!", 3) 
+    return 
+end
+
+local GUI = {}
+
+local Katty = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local InsideFrame = Instance.new("Frame")
+local CombatButton = Instance.new("TextButton")
+local CombatFrame = Instance.new("Frame")
+local AimbotFrame = Instance.new("Frame")
+local AimbotLabel = Instance.new("TextLabel")
+local SmoothnessLabel = Instance.new("TextLabel")
+local AimbotButton = Instance.new("TextButton")
+local AimbotIndicatorFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Frame = Instance.new("Frame")
+local FOVButton = Instance.new("TextButton")
+local FOVIndicatorFrame = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local PrimaryLimbPartLabel = Instance.new("TextLabel")
+local PrimaryLimbPartButton = Instance.new("TextButton")
+local PrimaryPartSelectionFrame = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
+local TorsoButton = Instance.new("TextButton")
+local HeadButton = Instance.new("TextButton")
+local AimbotKeyBindTextBox = Instance.new("TextBox")
+local AimbotSmoothnessrameEmpty = Instance.new("Frame")
+local AimbotSmoothnessrame = Instance.new("Frame")
+local FovRadiusFrameEmpty = Instance.new("Frame")
+local FovRadiusFrame = Instance.new("Frame")
+local MiscFrame = Instance.new("Frame")
+local MiscLabel = Instance.new("TextLabel")
+local AutoReloadButton = Instance.new("TextButton")
+local AutoReloadIndicatorFrame = Instance.new("Frame")
+local UICorner_3 = Instance.new("UICorner")
+local Frame_2 = Instance.new("Frame")
+local AutoSkipWaveButton = Instance.new("TextButton")
+local AutoSkipWaveIndicatorFrame = Instance.new("Frame")
+local UICorner_4 = Instance.new("UICorner")
+local VisualButton = Instance.new("TextButton")
+local VisualFrame = Instance.new("Frame")
+local EspFrame = Instance.new("Frame")
+local EspLabel = Instance.new("TextLabel")
+local ZombieESP = Instance.new("TextButton")
+local ZombieESPIndicatorFrame = Instance.new("Frame")
+local UICorner_5 = Instance.new("UICorner")
+local ZombieESPColorFrame = Instance.new("Frame")
+local UICorner_6 = Instance.new("UICorner")
+local WraithESP = Instance.new("TextButton")
+local WraithESPIndicatorFrame = Instance.new("Frame")
+local UICorner_7 = Instance.new("UICorner")
+local WraithESPColorFrame = Instance.new("Frame")
+local UICorner_8 = Instance.new("UICorner")
+local BossESP = Instance.new("TextButton")
+local BossESPIndicatorFrame = Instance.new("Frame")
+local UICorner_9 = Instance.new("UICorner")
+local BossESPColorFrame = Instance.new("Frame")
+local UICorner_10 = Instance.new("UICorner")
+local NotifierFrame = Instance.new("Frame")
+local NotifierLabel = Instance.new("TextLabel")
+local WraithNotifier = Instance.new("TextButton")
+local WraithNotifierIndicatorFrame = Instance.new("Frame")
+local UICorner_11 = Instance.new("UICorner")
+local UICorner_12 = Instance.new("UICorner")
+local LinkLabel = Instance.new("TextLabel")
+local InfoLabel = Instance.new("TextLabel")
+local NotifierFrame_2 = Instance.new("Frame")
+local UIListLayout_2 = Instance.new("UIListLayout")
+local TextLabelTemplate = Instance.new("TextLabel")
+
+-- Set all properties
+Katty.Name = "Katty"
+Katty.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Katty.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+Katty.DisplayOrder = 2147483648
+Katty.ResetOnSpawn = false
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = Katty
+MainFrame.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+MainFrame.BorderColor3 = Color3.fromRGB(255, 119, 0)
+MainFrame.Position = UDim2.new(0.286157697, 0, 0.166429579, 0)
+MainFrame.Size = UDim2.new(0.304021239, 0, 0.729185164, 0)
+
+TextLabel.Parent = MainFrame
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(-3.85907626e-08, 0, 0.00615911465, 0)
+TextLabel.Size = UDim2.new(0.200000107, 0, 0.0357779562, 0)
+TextLabel.Font = Enum.Font.Michroma
+TextLabel.Text = "Katty Hub"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+InsideFrame.Name = "InsideFrame"
+InsideFrame.Parent = MainFrame
+InsideFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+InsideFrame.BorderColor3 = Color3.fromRGB(58, 58, 58)
+InsideFrame.Position = UDim2.new(0.0107248724, 0, 0.0401113331, 0)
+InsideFrame.Size = UDim2.new(0.973333359, 0, 0.937875748, 0)
+
+CombatButton.Name = "CombatButton"
+CombatButton.Parent = InsideFrame
+CombatButton.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+CombatButton.BorderColor3 = Color3.fromRGB(67, 67, 67)
+CombatButton.Position = UDim2.new(0.0214474984, 0, 0.000424178172, 0)
+CombatButton.Size = UDim2.new(0.15711385, 0, 0.0411791801, 0)
+CombatButton.Font = Enum.Font.Michroma
+CombatButton.Text = "Combat"
+CombatButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CombatButton.TextSize = 14.000
+
+CombatFrame.Name = "CombatFrame"
+CombatFrame.Parent = CombatButton
+CombatFrame.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+CombatFrame.BorderColor3 = Color3.fromRGB(67, 67, 67)
+CombatFrame.Position = UDim2.new(0, 0, 0.999998212, 0)
+CombatFrame.Size = UDim2.new(6.11477184, 0, 22.9141369, 0)
+
+AimbotFrame.Name = "AimbotFrame"
+AimbotFrame.Parent = CombatFrame
+AimbotFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+AimbotFrame.BorderColor3 = Color3.fromRGB(104, 104, 104)
+AimbotFrame.Position = UDim2.new(0.0199336372, 0, 0.0190667287, 0)
+AimbotFrame.Size = UDim2.new(0.494105548, 0, 0.673457503, 0)
+
+AimbotLabel.Name = "AimbotLabel"
+AimbotLabel.Parent = AimbotFrame
+AimbotLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+AimbotLabel.BackgroundTransparency = 1.000
+AimbotLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AimbotLabel.BorderSizePixel = 0
+AimbotLabel.Position = UDim2.new(0.29347229, 0, 0, 0)
+AimbotLabel.Size = UDim2.new(0, 81, 0, 23)
+AimbotLabel.Font = Enum.Font.Michroma
+AimbotLabel.Text = "Aimbot"
+AimbotLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+AimbotLabel.TextSize = 14.000
+AimbotLabel.TextWrapped = true
+
+SmoothnessLabel.Name = "SmoothnessLabel"
+SmoothnessLabel.Parent = AimbotFrame
+SmoothnessLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SmoothnessLabel.BackgroundTransparency = 1.000
+SmoothnessLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SmoothnessLabel.BorderSizePixel = 0
+SmoothnessLabel.Position = UDim2.new(0.0323683918, 0, 0.151449278, 0)
+SmoothnessLabel.Size = UDim2.new(0.315789461, 0, 0.0733333305, 0)
+SmoothnessLabel.Font = Enum.Font.Michroma
+SmoothnessLabel.Text = "Smoothness"
+SmoothnessLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+SmoothnessLabel.TextSize = 14.000
+
+AimbotButton.Name = "AimbotButton"
+AimbotButton.Parent = AimbotFrame
+AimbotButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+AimbotButton.BackgroundTransparency = 1.000
+AimbotButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AimbotButton.BorderSizePixel = 0
+AimbotButton.Position = UDim2.new(0.0209924299, 0, 0.0867777914, 0)
+AimbotButton.Size = UDim2.new(0.366809875, 0, 0.0729999989, 0)
+AimbotButton.Font = Enum.Font.Michroma
+AimbotButton.Text = "Aimbot"
+AimbotButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+AimbotButton.TextSize = 14.000
+AimbotButton.TextWrapped = true
+
+AimbotIndicatorFrame.Name = "AimbotIndicatorFrame"
+AimbotIndicatorFrame.Parent = AimbotButton
+AimbotIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+AimbotIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AimbotIndicatorFrame.BorderSizePixel = 0
+AimbotIndicatorFrame.Position = UDim2.new(-0, 0, 0.305000007, 0)
+AimbotIndicatorFrame.Size = UDim2.new(0.140000001, 0, 0.409000009, 0)
+
+UICorner.CornerRadius = UDim.new(0, 2)
+UICorner.Parent = AimbotIndicatorFrame
+
+Frame.Parent = AimbotFrame
+Frame.BackgroundColor3 = Color3.fromRGB(79, 79, 79)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(-0.00499999989, 0, 0, 0)
+Frame.Size = UDim2.new(1, 0, 0.00999999978, 0)
+
+FOVButton.Name = "FOVButton"
+FOVButton.Parent = AimbotFrame
+FOVButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+FOVButton.BackgroundTransparency = 1.000
+FOVButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+FOVButton.BorderSizePixel = 0
+FOVButton.Position = UDim2.new(0.0295190495, 0, 0.286393434, 0)
+FOVButton.Size = UDim2.new(0.258565009, 0, 0.0598220564, 0)
+FOVButton.Font = Enum.Font.Michroma
+FOVButton.Text = "FOV"
+FOVButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+FOVButton.TextSize = 14.000
+FOVButton.TextWrapped = true
+
+FOVIndicatorFrame.Name = "FOVIndicatorFrame"
+FOVIndicatorFrame.Parent = FOVButton
+FOVIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+FOVIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+FOVIndicatorFrame.BorderSizePixel = 0
+FOVIndicatorFrame.Position = UDim2.new(-0, 0, 0.305000007, 0)
+FOVIndicatorFrame.Size = UDim2.new(0.159999996, 0, 0.409000009, 0)
+
+UICorner_2.CornerRadius = UDim.new(0, 2)
+UICorner_2.Parent = FOVIndicatorFrame
+
+PrimaryLimbPartLabel.Name = "PrimaryLimbPartLabel"
+PrimaryLimbPartLabel.Parent = AimbotFrame
+PrimaryLimbPartLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+PrimaryLimbPartLabel.BackgroundTransparency = 1.000
+PrimaryLimbPartLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+PrimaryLimbPartLabel.BorderSizePixel = 0
+PrimaryLimbPartLabel.Position = UDim2.new(0.182428479, 0, 0.388176054, 0)
+PrimaryLimbPartLabel.Size = UDim2.new(0.540691376, 0, 0.0733333305, 0)
+PrimaryLimbPartLabel.Font = Enum.Font.Michroma
+PrimaryLimbPartLabel.Text = "Aim Part:"
+PrimaryLimbPartLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+PrimaryLimbPartLabel.TextSize = 14.000
+
+PrimaryLimbPartButton.Name = "PrimaryLimbPartButton"
+PrimaryLimbPartButton.Parent = AimbotFrame
+PrimaryLimbPartButton.BackgroundColor3 = Color3.fromRGB(53, 53, 53)
+PrimaryLimbPartButton.BorderColor3 = Color3.fromRGB(100, 100, 100)
+PrimaryLimbPartButton.Position = UDim2.new(0.6080603, 0, 0.401449323, 0)
+PrimaryLimbPartButton.Size = UDim2.new(0.361939698, 0, 0.0499999523, 0)
+PrimaryLimbPartButton.Font = Enum.Font.Michroma
+PrimaryLimbPartButton.Text = "Head"
+PrimaryLimbPartButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+PrimaryLimbPartButton.TextSize = 14.000
+
+PrimaryPartSelectionFrame.Name = "PrimaryPartSelectionFrame"
+PrimaryPartSelectionFrame.Parent = PrimaryLimbPartButton
+PrimaryPartSelectionFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+PrimaryPartSelectionFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+PrimaryPartSelectionFrame.BorderSizePixel = 0
+PrimaryPartSelectionFrame.Position = UDim2.new(0, 0, 1.27272868, 0)
+PrimaryPartSelectionFrame.Size = UDim2.new(1, 0, 2.409091, 0)
+PrimaryPartSelectionFrame.Visible = false
+
+UIListLayout.Parent = PrimaryPartSelectionFrame
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+TorsoButton.Name = "TorsoButton"
+TorsoButton.Parent = PrimaryPartSelectionFrame
+TorsoButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+TorsoButton.BorderColor3 = Color3.fromRGB(79, 79, 79)
+TorsoButton.Size = UDim2.new(1, 0, 0.5, 0)
+TorsoButton.Font = Enum.Font.Michroma
+TorsoButton.Text = "Torso"
+TorsoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TorsoButton.TextSize = 14.000
+
+HeadButton.Name = "HeadButton"
+HeadButton.Parent = PrimaryPartSelectionFrame
+HeadButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+HeadButton.BorderColor3 = Color3.fromRGB(79, 79, 79)
+HeadButton.Size = UDim2.new(1, 0, 0.5, 0)
+HeadButton.Font = Enum.Font.Michroma
+HeadButton.Text = "Head"
+HeadButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+HeadButton.TextSize = 14.000
+
+AimbotKeyBindTextBox.Name = "AimbotKeyBindTextBox"
+AimbotKeyBindTextBox.Parent = AimbotFrame
+AimbotKeyBindTextBox.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+AimbotKeyBindTextBox.BorderColor3 = Color3.fromRGB(104, 104, 104)
+AimbotKeyBindTextBox.BorderSizePixel = 0
+AimbotKeyBindTextBox.Position = UDim2.new(0.995000005, 0, 0.0839999989, 0)
+AimbotKeyBindTextBox.Size = UDim2.new(0, -20, 0, 20)
+AimbotKeyBindTextBox.Font = Enum.Font.Bodoni
+AimbotKeyBindTextBox.Text = "Q"
+AimbotKeyBindTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+AimbotKeyBindTextBox.TextScaled = true
+AimbotKeyBindTextBox.TextSize = 14.000
+AimbotKeyBindTextBox.TextWrapped = true
+
+AimbotSmoothnessrameEmpty.Name = "AimbotSmoothnessrameEmpty"
+AimbotSmoothnessrameEmpty.Parent = AimbotFrame
+AimbotSmoothnessrameEmpty.BackgroundColor3 = Color3.fromRGB(100, 40, 0)
+AimbotSmoothnessrameEmpty.BorderColor3 = Color3.fromRGB(108, 108, 108)
+AimbotSmoothnessrameEmpty.BorderSizePixel = 0
+AimbotSmoothnessrameEmpty.Position = UDim2.new(0.0219999999, 0, 0.223000005, 0)
+AimbotSmoothnessrameEmpty.Size = UDim2.new(0.948000014, 0, 0.0289999992, 0)
+AimbotSmoothnessrameEmpty.ZIndex = 0
+
+AimbotSmoothnessrame.Name = "AimbotSmoothnessrame"
+AimbotSmoothnessrame.Parent = AimbotSmoothnessrameEmpty
+AimbotSmoothnessrame.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+AimbotSmoothnessrame.BorderColor3 = Color3.fromRGB(108, 108, 108)
+AimbotSmoothnessrame.BorderSizePixel = 0
+AimbotSmoothnessrame.Size = UDim2.new(1, 0, 1, 0)
+
+FovRadiusFrameEmpty.Name = "FovRadiusFrameEmpty"
+FovRadiusFrameEmpty.Parent = AimbotFrame
+FovRadiusFrameEmpty.BackgroundColor3 = Color3.fromRGB(100, 40, 0)
+FovRadiusFrameEmpty.BorderColor3 = Color3.fromRGB(0, 0, 0)
+FovRadiusFrameEmpty.BorderSizePixel = 0
+FovRadiusFrameEmpty.Position = UDim2.new(0.023, 0, 0.34799999, 0)
+FovRadiusFrameEmpty.Size = UDim2.new(0.952000022, 0, 0.0289999992, 0)
+FovRadiusFrameEmpty.ZIndex = 0
+
+FovRadiusFrame.Name = "FovRadiusFrame"
+FovRadiusFrame.Parent = FovRadiusFrameEmpty
+FovRadiusFrame.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+FovRadiusFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+FovRadiusFrame.BorderSizePixel = 0
+FovRadiusFrame.Size = UDim2.new(1, 0, 1, 0)
+
+MiscFrame.Name = "MiscFrame"
+MiscFrame.Parent = CombatFrame
+MiscFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+MiscFrame.BorderColor3 = Color3.fromRGB(104, 104, 104)
+MiscFrame.Position = UDim2.new(0.547748387, 0, 0.0177684166, 0)
+MiscFrame.Size = UDim2.new(0.431367755, 0, 0.572438836, 0)
+
+MiscLabel.Name = "MiscLabel"
+MiscLabel.Parent = MiscFrame
+MiscLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MiscLabel.BackgroundTransparency = 1.000
+MiscLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+MiscLabel.BorderSizePixel = 0
+MiscLabel.Position = UDim2.new(0.29347229, 0, 0, 0)
+MiscLabel.Size = UDim2.new(0.529411793, 0, 0.0901960805, 0)
+MiscLabel.Font = Enum.Font.Michroma
+MiscLabel.Text = "Misc"
+MiscLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+MiscLabel.TextSize = 14.000
+MiscLabel.TextWrapped = true
+
+AutoReloadButton.Name = "Auto Reload Button"
+AutoReloadButton.Parent = MiscFrame
+AutoReloadButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+AutoReloadButton.BackgroundTransparency = 1.000
+AutoReloadButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoReloadButton.BorderSizePixel = 0
+AutoReloadButton.Position = UDim2.new(0.106465638, 0, 0.103112489, 0)
+AutoReloadButton.Size = UDim2.new(0.570709765, 0, 0.0729999989, 0)
+AutoReloadButton.Font = Enum.Font.Michroma
+AutoReloadButton.Text = "Auto-Reload"
+AutoReloadButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoReloadButton.TextSize = 14.000
+AutoReloadButton.TextWrapped = true
+
+AutoReloadIndicatorFrame.Name = "Auto ReloadIndicatorFrame"
+AutoReloadIndicatorFrame.Parent = AutoReloadButton
+AutoReloadIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+AutoReloadIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoReloadIndicatorFrame.BorderSizePixel = 0
+AutoReloadIndicatorFrame.Position = UDim2.new(-0.0785761401, 0, 0.305062503, 0)
+AutoReloadIndicatorFrame.Size = UDim2.new(0.0785751492, 0, 0.409000009, 0)
+
+UICorner_3.CornerRadius = UDim.new(0, 2)
+UICorner_3.Parent = AutoReloadIndicatorFrame
+
+Frame_2.Parent = MiscFrame
+Frame_2.BackgroundColor3 = Color3.fromRGB(79, 79, 79)
+Frame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame_2.BorderSizePixel = 0
+Frame_2.Position = UDim2.new(-0.00503559224, 0, 0, 0)
+Frame_2.Size = UDim2.new(1, 0, 0.0117647061, 0)
+
+AutoSkipWaveButton.Name = "Auto Skip Wave Button"
+AutoSkipWaveButton.Parent = MiscFrame
+AutoSkipWaveButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+AutoSkipWaveButton.BackgroundTransparency = 1.000
+AutoSkipWaveButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoSkipWaveButton.BorderSizePixel = 0
+AutoSkipWaveButton.Position = UDim2.new(0.100278914, 0, 0.191396296, 0)
+AutoSkipWaveButton.Size = UDim2.new(0.722605467, 0, 0.0730000064, 0)
+AutoSkipWaveButton.Font = Enum.Font.Michroma
+AutoSkipWaveButton.Text = "Auto Skip Wave"
+AutoSkipWaveButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoSkipWaveButton.TextSize = 14.000
+AutoSkipWaveButton.TextWrapped = true
+
+AutoSkipWaveIndicatorFrame.Name = "Auto Skip WaveIndicatorFrame"
+AutoSkipWaveIndicatorFrame.Parent = AutoSkipWaveButton
+AutoSkipWaveIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+AutoSkipWaveIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AutoSkipWaveIndicatorFrame.BorderSizePixel = 0
+AutoSkipWaveIndicatorFrame.Position = UDim2.new(-0.0500000007, 0, 0.305000007, 0)
+AutoSkipWaveIndicatorFrame.Size = UDim2.new(0.0584906153, 0, 0.366463631, 0)
+
+UICorner_4.CornerRadius = UDim.new(0, 2)
+UICorner_4.Parent = AutoSkipWaveIndicatorFrame
+
+VisualButton.Name = "VisualButton"
+VisualButton.Parent = InsideFrame
+VisualButton.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+VisualButton.BorderColor3 = Color3.fromRGB(67, 67, 67)
+VisualButton.Position = UDim2.new(0.177350029, 0, 0.000424178172, 0)
+VisualButton.Size = UDim2.new(0.15711385, 0, 0.0411791801, 0)
+VisualButton.Font = Enum.Font.Michroma
+VisualButton.Text = "Visual"
+VisualButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+VisualButton.TextSize = 14.000
+
+VisualFrame.Name = "VisualFrame"
+VisualFrame.Parent = VisualButton
+VisualFrame.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+VisualFrame.BorderColor3 = Color3.fromRGB(67, 67, 67)
+VisualFrame.Position = UDim2.new(-1.00934625, 0, 0.999998212, 0)
+VisualFrame.Size = UDim2.new(6.11477184, 0, 22.9141369, 0)
+VisualFrame.Visible = false
+
+EspFrame.Name = "EspFrame"
+EspFrame.Parent = VisualFrame
+EspFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+EspFrame.BorderColor3 = Color3.fromRGB(107, 107, 107)
+EspFrame.Position = UDim2.new(0.0259821527, 0, 0.0229714047, 0)
+EspFrame.Size = UDim2.new(0.530950308, 0, 0.551087201, 0)
+
+EspLabel.Name = "EspLabel"
+EspLabel.Parent = EspFrame
+EspLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+EspLabel.BackgroundTransparency = 1.000
+EspLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+EspLabel.BorderSizePixel = 0
+EspLabel.Position = UDim2.new(0.25999999, 0, 0, 0)
+EspLabel.Size = UDim2.new(0, 95, 0, 20)
+EspLabel.Font = Enum.Font.Michroma
+EspLabel.Text = "Esp"
+EspLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+EspLabel.TextSize = 14.000
+
+ZombieESP.Name = "ZombieESP"
+ZombieESP.Parent = EspFrame
+ZombieESP.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ZombieESP.BackgroundTransparency = 1.000
+ZombieESP.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ZombieESP.BorderSizePixel = 0
+ZombieESP.Position = UDim2.new(0.0907142609, 0, 0.0795046091, 0)
+ZombieESP.Size = UDim2.new(0.44600001, 0, 0.0729999989, 0)
+ZombieESP.Font = Enum.Font.Michroma
+ZombieESP.Text = "Zombie ESP"
+ZombieESP.TextColor3 = Color3.fromRGB(255, 255, 255)
+ZombieESP.TextSize = 14.000
+ZombieESP.TextWrapped = true
+
+ZombieESPIndicatorFrame.Name = "ZombieESPIndicatorFrame"
+ZombieESPIndicatorFrame.Parent = ZombieESP
+ZombieESPIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+ZombieESPIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ZombieESPIndicatorFrame.BorderSizePixel = 0
+ZombieESPIndicatorFrame.Position = UDim2.new(-0.0757674351, 0, 0.305062503, 0)
+ZombieESPIndicatorFrame.Size = UDim2.new(0.0663273111, 0, 0.409000009, 0)
+
+UICorner_5.CornerRadius = UDim.new(0, 2)
+UICorner_5.Parent = ZombieESPIndicatorFrame
+
+ZombieESPColorFrame.Name = "ZombieESPColorFrame"
+ZombieESPColorFrame.Parent = ZombieESP
+ZombieESPColorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+ZombieESPColorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ZombieESPColorFrame.BorderSizePixel = 0
+ZombieESPColorFrame.Position = UDim2.new(1.75638878, 0, 0.305062503, 0)
+ZombieESPColorFrame.Size = UDim2.new(0.184843048, 0, 0.409000009, 0)
+
+UICorner_6.CornerRadius = UDim.new(0, 2)
+UICorner_6.Parent = ZombieESPColorFrame
+
+WraithESP.Name = "WraithESP"
+WraithESP.Parent = EspFrame
+WraithESP.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+WraithESP.BackgroundTransparency = 1.000
+WraithESP.BorderColor3 = Color3.fromRGB(0, 0, 0)
+WraithESP.BorderSizePixel = 0
+WraithESP.Position = UDim2.new(0.0907142609, 0, 0.151504606, 0)
+WraithESP.Size = UDim2.new(0.44600001, 0, 0.0729999989, 0)
+WraithESP.Font = Enum.Font.Michroma
+WraithESP.Text = "Wraith ESP"
+WraithESP.TextColor3 = Color3.fromRGB(255, 255, 255)
+WraithESP.TextSize = 14.000
+WraithESP.TextWrapped = true
+
+WraithESPIndicatorFrame.Name = "WraithESPIndicatorFrame"
+WraithESPIndicatorFrame.Parent = WraithESP
+WraithESPIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+WraithESPIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+WraithESPIndicatorFrame.BorderSizePixel = 0
+WraithESPIndicatorFrame.Position = UDim2.new(-0.0757674351, 0, 0.30506292, 0)
+WraithESPIndicatorFrame.Size = UDim2.new(0.0663273111, 0, 0.409000009, 0)
+
+UICorner_7.CornerRadius = UDim.new(0, 2)
+UICorner_7.Parent = WraithESPIndicatorFrame
+
+WraithESPColorFrame.Name = "WraithESPColorFrame"
+WraithESPColorFrame.Parent = WraithESP
+WraithESPColorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+WraithESPColorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+WraithESPColorFrame.BorderSizePixel = 0
+WraithESPColorFrame.Position = UDim2.new(1.75638878, 0, 0.305062503, 0)
+WraithESPColorFrame.Size = UDim2.new(0.184843048, 0, 0.409000009, 0)
+
+UICorner_8.CornerRadius = UDim.new(0, 2)
+UICorner_8.Parent = WraithESPColorFrame
+
+BossESP.Name = "BossESP"
+BossESP.Parent = EspFrame
+BossESP.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+BossESP.BackgroundTransparency = 1.000
+BossESP.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BossESP.BorderSizePixel = 0
+BossESP.Position = UDim2.new(0.0907142609, 0, 0.223504633, 0)
+BossESP.Size = UDim2.new(0.44600001, 0, 0.0729999989, 0)
+BossESP.Font = Enum.Font.Michroma
+BossESP.Text = "Boss ESP"
+BossESP.TextColor3 = Color3.fromRGB(255, 255, 255)
+BossESP.TextSize = 14.000
+BossESP.TextWrapped = true
+
+BossESPIndicatorFrame.Name = "BossESPIndicatorFrame"
+BossESPIndicatorFrame.Parent = BossESP
+BossESPIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+BossESPIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BossESPIndicatorFrame.BorderSizePixel = 0
+BossESPIndicatorFrame.Position = UDim2.new(-0.0757674351, 0, 0.30506292, 0)
+BossESPIndicatorFrame.Size = UDim2.new(0.0663273111, 0, 0.409000009, 0)
+
+UICorner_9.CornerRadius = UDim.new(0, 2)
+UICorner_9.Parent = BossESPIndicatorFrame
+
+BossESPColorFrame.Name = "BossESPColorFrame"
+BossESPColorFrame.Parent = BossESP
+BossESPColorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+BossESPColorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BossESPColorFrame.BorderSizePixel = 0
+BossESPColorFrame.Position = UDim2.new(1.75638878, 0, 0.305062503, 0)
+BossESPColorFrame.Size = UDim2.new(0.184843048, 0, 0.409000009, 0)
+
+UICorner_10.CornerRadius = UDim.new(0, 2)
+UICorner_10.Parent = BossESPColorFrame
+
+NotifierFrame.Name = "NotifierFrame"
+NotifierFrame.Parent = VisualFrame
+NotifierFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+NotifierFrame.BorderColor3 = Color3.fromRGB(107, 107, 107)
+NotifierFrame.Position = UDim2.new(0.614564419, 0, 0.0229713842, 0)
+NotifierFrame.Size = UDim2.new(0.345117688, 0, 0.341308266, 0)
+
+NotifierLabel.Name = "NotifierLabel"
+NotifierLabel.Parent = NotifierFrame
+NotifierLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+NotifierLabel.BackgroundTransparency = 1.000
+NotifierLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+NotifierLabel.BorderSizePixel = 0
+NotifierLabel.Position = UDim2.new(0.113065317, 0, 0, 0)
+NotifierLabel.Size = UDim2.new(0, 95, 0, 20)
+NotifierLabel.Font = Enum.Font.Michroma
+NotifierLabel.Text = "Notifier"
+NotifierLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+NotifierLabel.TextSize = 14.000
+
+WraithNotifier.Name = "WraithNotifier"
+WraithNotifier.Parent = NotifierFrame
+WraithNotifier.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+WraithNotifier.BackgroundTransparency = 1.000
+WraithNotifier.BorderColor3 = Color3.fromRGB(0, 0, 0)
+WraithNotifier.BorderSizePixel = 0
+WraithNotifier.Position = UDim2.new(0.0530923977, 0, 0.125253901, 0)
+WraithNotifier.Size = UDim2.new(0.889999986, 0, 0.150999993, 0)
+WraithNotifier.Font = Enum.Font.Michroma
+WraithNotifier.Text = "Wraith Notifier"
+WraithNotifier.TextColor3 = Color3.fromRGB(255, 255, 255)
+WraithNotifier.TextSize = 14.000
+WraithNotifier.TextWrapped = true
+
+WraithNotifierIndicatorFrame.Name = "WraithNotifierIndicatorFrame"
+WraithNotifierIndicatorFrame.Parent = WraithNotifier
+WraithNotifierIndicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+WraithNotifierIndicatorFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+WraithNotifierIndicatorFrame.BorderSizePixel = 0
+WraithNotifierIndicatorFrame.Position = UDim2.new(-0.00238900073, 0, 0.262290955, 0)
+WraithNotifierIndicatorFrame.Size = UDim2.new(0.063946858, 0, 0.409000009, 0)
+
+UICorner_11.CornerRadius = UDim.new(0, 2)
+UICorner_11.Parent = WraithNotifierIndicatorFrame
+
+LinkLabel.Name = "LinkLabel"
+LinkLabel.Parent = MainFrame
+LinkLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LinkLabel.BackgroundTransparency = 1.000
+LinkLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LinkLabel.BorderSizePixel = 0
+LinkLabel.Position = UDim2.new(0.566667497, 0, 0, 0)
+LinkLabel.Size = UDim2.new(0.433332473, 0, 0.0401113629, 0)
+LinkLabel.Font = Enum.Font.Michroma
+LinkLabel.Text = "(https://discord.gg/Cu3YYwZe) "
+LinkLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+LinkLabel.TextSize = 14.000
+LinkLabel.TextWrapped = true
+
+InfoLabel.Name = "InfoLabel"
+InfoLabel.Parent = Katty
+InfoLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+InfoLabel.BackgroundTransparency = 1.000
+InfoLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+InfoLabel.BorderSizePixel = 0
+InfoLabel.Position = UDim2.new(-0.00433973968, 0, 0.519203424, 0)
+InfoLabel.Size = UDim2.new(0.123992562, 0, 0.0711237565, 0)
+InfoLabel.Font = Enum.Font.SourceSans
+InfoLabel.Text = "Press Left Alt to show/hide the main gui."
+InfoLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+InfoLabel.TextScaled = true
+InfoLabel.TextSize = 14.000
+InfoLabel.TextTransparency = 0.500
+InfoLabel.TextWrapped = true
+
+NotifierFrame_2.Name = "NotifierFrame"
+NotifierFrame_2.Parent = Katty
+NotifierFrame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+NotifierFrame_2.BackgroundTransparency = 1.000
+NotifierFrame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+NotifierFrame_2.BorderSizePixel = 0
+NotifierFrame_2.Position = UDim2.new(0.816491008, 0, 0.392603129, 0)
+NotifierFrame_2.Size = UDim2.new(0.18970862, 0, 0.336582094, 0)
+
+UIListLayout_2.Parent = NotifierFrame_2
+UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+
+TextLabelTemplate.Name = "TextLabelTemplate"
+TextLabelTemplate.Parent = UIListLayout_2
+TextLabelTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabelTemplate.BackgroundTransparency = 1.000
+TextLabelTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabelTemplate.BorderSizePixel = 0
+TextLabelTemplate.Size = UDim2.new(0.967320263, 0, 0.211311758, 0)
+TextLabelTemplate.Font = Enum.Font.Bodoni
+TextLabelTemplate.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabelTemplate.TextScaled = true
+TextLabelTemplate.TextSize = 14.000
+TextLabelTemplate.TextWrapped = true
+
+local UIDragDetector = Instance.new("UIDragDetector")
+UIDragDetector.Parent = MainFrame
+UIDragDetector.ResponseStyle = Enum.UIDragDetectorResponseStyle.Scale
+
+GUI.Katty = Katty
+GUI.MainFrame = MainFrame
+GUI.TextLabel = TextLabel
+GUI.InsideFrame = InsideFrame
+GUI.CombatButton = CombatButton
+GUI.CombatFrame = CombatFrame
+GUI.AimbotFrame = AimbotFrame
+GUI.AimbotLabel = AimbotLabel
+GUI.SmoothnessLabel = SmoothnessLabel
+GUI.AimbotButton = AimbotButton
+GUI.AimbotIndicatorFrame = AimbotIndicatorFrame
+GUI.UICorner = UICorner
+GUI.Frame = Frame
+GUI.FOVButton = FOVButton
+GUI.FOVIndicatorFrame = FOVIndicatorFrame
+GUI.UICorner_2 = UICorner_2
+GUI.PrimaryLimbPartLabel = PrimaryLimbPartLabel
+GUI.PrimaryLimbPartButton = PrimaryLimbPartButton
+GUI.PrimaryPartSelectionFrame = PrimaryPartSelectionFrame
+GUI.UIListLayout = UIListLayout
+GUI.TorsoButton = TorsoButton
+GUI.HeadButton = HeadButton
+GUI.AimbotKeyBindTextBox = AimbotKeyBindTextBox
+GUI.AimbotSmoothnessrameEmpty = AimbotSmoothnessrameEmpty
+GUI.AimbotSmoothnessrame = AimbotSmoothnessrame
+GUI.FovRadiusFrameEmpty = FovRadiusFrameEmpty
+GUI.FovRadiusFrame = FovRadiusFrame
+GUI.MiscFrame = MiscFrame
+GUI.MiscLabel = MiscLabel
+GUI.AutoReloadButton = AutoReloadButton
+GUI.AutoReloadIndicatorFrame = AutoReloadIndicatorFrame
+GUI.UICorner_3 = UICorner_3
+GUI.Frame_2 = Frame_2
+GUI.AutoSkipWaveButton = AutoSkipWaveButton
+GUI.AutoSkipWaveIndicatorFrame = AutoSkipWaveIndicatorFrame
+GUI.UICorner_4 = UICorner_4
+GUI.VisualButton = VisualButton
+GUI.VisualFrame = VisualFrame
+GUI.EspFrame = EspFrame
+GUI.EspLabel = EspLabel
+GUI.ZombieESP = ZombieESP
+GUI.ZombieESPIndicatorFrame = ZombieESPIndicatorFrame
+GUI.UICorner_5 = UICorner_5
+GUI.ZombieESPColorFrame = ZombieESPColorFrame
+GUI.UICorner_6 = UICorner_6
+GUI.WraithESP = WraithESP
+GUI.WraithESPIndicatorFrame = WraithESPIndicatorFrame
+GUI.UICorner_7 = UICorner_7
+GUI.WraithESPColorFrame = WraithESPColorFrame
+GUI.UICorner_8 = UICorner_8
+GUI.BossESP = BossESP
+GUI.BossESPIndicatorFrame = BossESPIndicatorFrame
+GUI.UICorner_9 = UICorner_9
+GUI.BossESPColorFrame = BossESPColorFrame
+GUI.UICorner_10 = UICorner_10
+GUI.NotifierFrame = NotifierFrame
+GUI.NotifierLabel = NotifierLabel
+GUI.WraithNotifier = WraithNotifier
+GUI.WraithNotifierIndicatorFrame = WraithNotifierIndicatorFrame
+GUI.UICorner_11 = UICorner_11
+GUI.UICorner_12 = UICorner_12
+GUI.LinkLabel = LinkLabel
+GUI.InfoLabel = InfoLabel
+GUI.NotifierFrame_2 = NotifierFrame_2
+GUI.UIListLayout_2 = UIListLayout_2
+GUI.TextLabelTemplate = TextLabelTemplate
+GUI.UIDragDetector = UIDragDetector
+
+return GUI
