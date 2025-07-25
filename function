@@ -1,0 +1,705 @@
+local GUI = getfenv().GUI
+if not GUI then
+    error("GUI elements not found in environment!")
+    return
+end
+
+local Katty = GUI.Katty
+local MainFrame = GUI.MainFrame
+local InsideFrame = GUI.InsideFrame
+local CombatButton = GUI.CombatButton
+local CombatFrame = GUI.CombatFrame
+local AimbotFrame = GUI.AimbotFrame
+local AimbotButton = GUI.AimbotButton
+local AimbotIndicatorFrame = GUI.AimbotIndicatorFrame
+local FOVButton = GUI.FOVButton
+local FOVIndicatorFrame = GUI.FOVIndicatorFrame
+local PrimaryLimbPartButton = GUI.PrimaryLimbPartButton
+local PrimaryPartSelectionFrame = GUI.PrimaryPartSelectionFrame
+local TorsoButton = GUI.TorsoButton
+local HeadButton = GUI.HeadButton
+local AimbotKeyBindTextBox = GUI.AimbotKeyBindTextBox
+local AimbotSmoothnessrameEmpty = GUI.AimbotSmoothnessrameEmpty
+local AimbotSmoothnessrame = GUI.AimbotSmoothnessrame
+local FovRadiusFrameEmpty = GUI.FovRadiusFrameEmpty
+local FovRadiusFrame = GUI.FovRadiusFrame
+local AutoReloadButton = GUI.AutoReloadButton
+local AutoReloadIndicatorFrame = GUI.AutoReloadIndicatorFrame
+local AutoSkipWaveButton = GUI.AutoSkipWaveButton
+local AutoSkipWaveIndicatorFrame = GUI.AutoSkipWaveIndicatorFrame
+local VisualButton = GUI.VisualButton
+local VisualFrame = GUI.VisualFrame
+local ZombieESP = GUI.ZombieESP
+local ZombieESPIndicatorFrame = GUI.ZombieESPIndicatorFrame
+local ZombieESPColorFrame = GUI.ZombieESPColorFrame
+local WraithESP = GUI.WraithESP
+local WraithESPIndicatorFrame = GUI.WraithESPIndicatorFrame
+local WraithESPColorFrame = GUI.WraithESPColorFrame
+local BossESP = GUI.BossESP
+local BossESPIndicatorFrame = GUI.BossESPIndicatorFrame
+local BossESPColorFrame = GUI.BossESPColorFrame
+local WraithNotifier = GUI.WraithNotifier
+local WraithNotifierIndicatorFrame = GUI.WraithNotifierIndicatorFrame
+local NotifierFrame_2 = GUI.NotifierFrame_2
+local TextLabelTemplate = GUI.TextLabelTemplate
+
+local FOVring = Drawing.new("Circle")
+FOVring.Visible = true
+FOVring.Thickness = 1
+FOVring.Radius = 1
+FOVring.Transparency = 0.5
+FOVring.Color = Color3.fromRGB(255, 128, 128)
+FOVring.Position = workspace.CurrentCamera.ViewportSize/2
+
+VisualFrame.Visible = false
+CombatFrame.Visible = true
+Katty.Enabled = true
+
+CombatButton.BackgroundColor3 = Color3.fromRGB(57,57,57)
+VisualFrame.BackgroundColor3 = Color3.fromRGB(28,28,28)
+
+AimbotIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+FOVIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+AutoReloadIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+AutoSkipWaveIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+BossESPIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+WraithNotifierIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+AimbotKeyBindTextBox.BackgroundColor3 = Color3.new(0,0,0)
+ZombieESPIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+WraithESPIndicatorFrame.BackgroundColor3 = Color3.new(0,0,0)
+
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local camera = Workspace.CurrentCamera
+
+local FeatureStates = {
+    AimbotEnabled = false,
+    FOVEnabled = false,
+    AutoReloadEnabled = false,
+    AutoSkipWaveEnabled = false,
+    ZombieESPEnabled = false,
+    WraithESPEnabled = false,
+    BossESPEnabled = false,
+    WraithNotifierEnabled = false,
+}
+
+local Settings = {
+    AimbotSmoothness = 1.0,
+    FOVRadius = 200,
+    AimbotKey = Enum.KeyCode.Q,
+    AimPart = "Head"
+}
+
+local ESPObjects = {
+    Zombies = {},
+    Wraiths = {},
+    Bosses = {}
+}
+
+local NotificationQueue = {}
+local MaxNotifications = 5
+
+local function updateIndicator(indicatorFrame, enabled)
+    if enabled then
+        indicatorFrame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    else
+        indicatorFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+    end
+end
+
+local function createESPBox(target, color)
+    local box = Drawing.new("Square")
+    box.Visible = false
+    box.Color = color
+    box.Thickness = 2
+    box.Transparency = 1
+    box.Filled = false
+    
+    local nameLabel = Drawing.new("Text")
+    nameLabel.Visible = false
+    nameLabel.Color = color
+    nameLabel.Size = 16
+    nameLabel.Center = true
+    nameLabel.Outline = true
+    nameLabel.OutlineColor = Color3.new(0, 0, 0)
+    nameLabel.Font = Drawing.Fonts.UI
+    
+    return {box = box, nameLabel = nameLabel, target = target}
+end
+
+local function updateESPBox(espObject)
+    if not espObject.target or not espObject.target.Parent then
+        espObject.box.Visible = false
+        espObject.nameLabel.Visible = false
+        return false
+    end
+    
+    local humanoidRootPart = espObject.target:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then
+        espObject.box.Visible = false
+        espObject.nameLabel.Visible = false
+        return false
+    end
+    
+    local vector, onScreen = camera:WorldToViewportPoint(humanoidRootPart.Position)
+    
+    if onScreen then
+        local size = (camera.CFrame.Position - humanoidRootPart.Position).Magnitude
+        local factor = 1 / (size / 100 + 1) * 50
+        
+        espObject.box.Size = Vector2.new(factor * 2, factor * 3)
+        espObject.box.Position = Vector2.new(vector.X - factor, vector.Y - factor * 1.5)
+        espObject.box.Visible = true
+        
+        espObject.nameLabel.Position = Vector2.new(vector.X, vector.Y - factor * 1.8)
+        espObject.nameLabel.Text = espObject.target.Name
+        espObject.nameLabel.Visible = true
+    else
+        espObject.box.Visible = false
+        espObject.nameLabel.Visible = false
+    end
+    
+    return true
+end
+
+local function cleanupESPObjects(espTable)
+    for i = #espTable, 1, -1 do
+        local espObject = espTable[i]
+        if not updateESPBox(espObject) then
+            espObject.box:Remove()
+            espObject.nameLabel:Remove()
+            table.remove(espTable, i)
+        end
+    end
+end
+
+local function addNotification(message, color)
+    if #NotificationQueue >= MaxNotifications then
+        local oldest = table.remove(NotificationQueue, 1)
+        oldest:Destroy()
+    end
+    
+    local notification = TextLabelTemplate:Clone()
+    notification.Text = message
+    notification.TextColor3 = color or Color3.fromRGB(255, 255, 255)
+    notification.Parent = NotifierFrame_2
+    notification.Visible = true
+    
+    table.insert(NotificationQueue, notification)
+    
+    game:GetService("Debris"):AddItem(notification, 5)
+    
+    spawn(function()
+        notification.AncestryChanged:Wait()
+        for i, notif in ipairs(NotificationQueue) do
+            if notif == notification then
+                table.remove(NotificationQueue, i)
+                break
+            end
+        end
+    end)
+end
+
+local function getClosestZombie()
+    local closestZombie = nil  
+    local shortestDist = math.huge  
+
+    local playerss = {}
+
+    for i, players in game.Players:GetPlayers() do
+        if players.Character then
+            table.insert(playerss, players.Character)
+        end
+    end
+
+    if workspace.Map:FindFirstChild("Border") then
+        for i, parts in workspace.Map.Border:GetDescendants() do
+            if parts:IsA("Part") then table.insert(playerss, parts) end
+        end
+    end
+
+    if workspace.Map:FindFirstChild("Boundary") then
+        for i, parts in workspace.Map.Boundary:GetDescendants() do
+            if parts:IsA("Part") then table.insert(playerss, parts) end
+        end 
+    end
+
+    for _, zombie in pairs(Workspace:WaitForChild("Zombies"):GetChildren()) do  
+        if  zombie:FindFirstChild("HumanoidRootPart") then  
+            if FeatureStates.FOVEnabled then
+                local ssPosPoint = camera:WorldToScreenPoint(zombie.HumanoidRootPart.Position)
+                ssPosPoint = Vector2.new(ssPosPoint.X, ssPosPoint.Y)
+                if (ssPosPoint - camera.ViewportSize/2).Magnitude > Settings.FOVRadius then continue end
+            end
+
+            local targetPos = zombie.HumanoidRootPart.Position  
+            local dist = (targetPos - camera.CFrame.Position).magnitude  
+            local direction = (targetPos - player.Character.HumanoidRootPart.Position).Unit
+            local rayParams = RaycastParams.new()
+            rayParams.FilterDescendantsInstances = {playerss}
+            rayParams.FilterType = Enum.RaycastFilterType.Blacklist  
+            local result = Workspace:Raycast(camera.CFrame.Position, direction * 9999, rayParams)
+            if result and result.Instance and result.Instance:IsDescendantOf(zombie) then  
+                if dist < shortestDist then  
+                    shortestDist = dist  
+                    closestZombie = zombie  
+                end  
+            end  
+        end  
+    end  
+
+    return closestZombie  
+end
+
+local function Alternative_AimAtZombie(zombie)
+    if not zombie or not zombie:FindFirstChild("HumanoidRootPart") then 
+        warn("Unusual behaviour occured, report: zombie does not have limbs or rootpart.") 
+        return 
+    end
+
+    local LimbName = "Head"
+
+    if zombie.Name == "Crawler" or zombie.Name == "HeadlessZombie" then
+        LimbName = "Torso"
+    end
+
+    local targetPart = zombie:FindFirstChild(LimbName)
+    local targetPosition = targetPart.Position
+    
+    local currentCFrame = camera.CFrame
+    local targetCFrame = CFrame.new(currentCFrame.Position, targetPosition)
+    
+    camera.CFrame = currentCFrame:Lerp(targetCFrame, math.clamp(1 - Settings.AimbotSmoothness, 0.01, 1))
+end
+
+local function aimAtZombie(zombie)
+    if not zombie or not zombie:FindFirstChild(Settings.AimPart) then 
+        return 
+    end
+    if zombie.Name == "Crawler" or zombie.Name == "HeadlessZombie" then 
+        Alternative_AimAtZombie(zombie) 
+        return 
+    end
+    
+    local targetPart = zombie:FindFirstChild(Settings.AimPart)
+    local targetPosition = targetPart.Position
+    
+    local currentCFrame = camera.CFrame
+    local targetCFrame = CFrame.new(currentCFrame.Position, targetPosition)
+    
+    camera.CFrame = currentCFrame:Lerp(targetCFrame, math.clamp(1 - Settings.AimbotSmoothness, 0.01, 1))
+end
+
+local function TabSelected(Frame)
+    for i, TabButtons in InsideFrame:GetChildren() do
+        if TabButtons:FindFirstChildWhichIsA("Frame") then
+            local Iterated_Frame = TabButtons:FindFirstChildWhichIsA("Frame")
+            local bool = Iterated_Frame == Frame
+            Iterated_Frame.Visible = bool
+            if bool then
+                Iterated_Frame.Parent.BackgroundColor3 = Color3.fromRGB(57,57,57)
+            else
+                Iterated_Frame.Parent.BackgroundColor3 = Color3.fromRGB(28,28,28)
+            end
+        end
+    end
+end
+
+local function ShowHide_FOV(Bool)
+    if Bool == true then
+        FOVring.Visible = true
+        FOVring.Thickness = 1
+        FOVring.Radius = Settings.FOVRadius
+        FOVring.Transparency = 0.5
+        FOVring.Color = Color3.fromRGB(255, 128, 128)
+        FOVring.Position = workspace.CurrentCamera.ViewportSize/2
+    elseif Bool == false then
+        FOVring.Visible = false
+        FOVring.Thickness = 1
+        FOVring.Radius = Settings.FOVRadius
+        FOVring.Transparency = 0.5
+        FOVring.Color = Color3.fromRGB(255, 128, 128)
+        FOVring.Position = workspace.CurrentCamera.ViewportSize/2
+    end
+end
+
+RunService.RenderStepped:Connect(function()
+     if FeatureStates.AimbotEnabled then
+        local zombie = getClosestZombie()
+         if zombie then
+            aimAtZombie(zombie)
+         end
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+        if FeatureStates.ZombieESPEnabled or FeatureStates.WraithESPEnabled or FeatureStates.BossESPEnabled then
+            local zombiesFolder = Workspace:FindFirstChild("Zombies")
+            if zombiesFolder then
+                cleanupESPObjects(ESPObjects.Zombies)
+                cleanupESPObjects(ESPObjects.Wraiths)
+                cleanupESPObjects(ESPObjects.Bosses)
+                
+                for _, zombie in pairs(zombiesFolder:GetChildren()) do
+                    if zombie:FindFirstChild("HumanoidRootPart") and zombie:FindFirstChildWhichIsA("Humanoid") then
+                        if zombie:FindFirstChildWhichIsA("Humanoid").Health < 0 then continue end
+                        local zombieName = zombie.Name:lower()
+                        local espObject = nil
+                        
+                        local existsInZombies = false
+                        local existsInWraiths = false
+                        local existsInBosses = false
+                        
+                        for _, obj in pairs(ESPObjects.Zombies) do
+                            if obj.target == zombie then existsInZombies = true break end
+                        end
+                        for _, obj in pairs(ESPObjects.Wraiths) do
+                            if obj.target == zombie then existsInWraiths = true break end
+                        end
+                        for _, obj in pairs(ESPObjects.Bosses) do
+                            if obj.target == zombie then existsInBosses = true break end
+                        end
+                        
+                        if FeatureStates.ZombieESPEnabled and not existsInZombies and 
+                           not zombieName:find("wraith") and not zombieName:find("boss") then
+                            espObject = createESPBox(zombie, ZombieESPColorFrame.BackgroundColor3)
+                            table.insert(ESPObjects.Zombies, espObject)
+                        elseif FeatureStates.WraithESPEnabled and not existsInWraiths and zombieName:find("wraith") then
+                            espObject = createESPBox(zombie, WraithESPColorFrame.BackgroundColor3)
+                            table.insert(ESPObjects.Wraiths, espObject)
+                        elseif FeatureStates.BossESPEnabled and not existsInBosses and zombieName:find("boss") then
+                            espObject = createESPBox(zombie, BossESPColorFrame.BackgroundColor3)
+                            table.insert(ESPObjects.Bosses, espObject)
+                        end
+                    end
+                end
+            end
+        else
+            cleanupESPObjects(ESPObjects.Zombies)
+            cleanupESPObjects(ESPObjects.Wraiths)
+            cleanupESPObjects(ESPObjects.Bosses)
+        end
+end)
+
+RunService.RenderStepped:Connect(function()
+    if FeatureStates.FOVEnabled == true then
+        ShowHide_FOV(true)
+    else
+        ShowHide_FOV(false)
+    end
+end)
+
+spawn(function()
+    while true do
+        if FeatureStates.AutoReloadEnabled then
+            local character = player.Character
+            if character then
+                local tool = character:FindFirstChildWhichIsA("Tool")
+                if tool and tool:FindFirstChild("CurrentValues") then
+                    local currentValues = tool.CurrentValues
+                    local clipValue = currentValues:FindFirstChild("Clip")
+                    local maxClipValue = currentValues:FindFirstChild("MaxClip")
+                    local ammoValue = currentValues:FindFirstChild("Ammo")
+                    
+                    if clipValue and maxClipValue and ammoValue then
+                        if clipValue.Value == 0 and ammoValue.Value > 0 then
+                            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.R, false, game)
+                            wait(0.1)
+                            game:GetService("VirtualInputManager"):SendKeyEvent(false, Enum.KeyCode.R, false, game)
+                        end
+                    end
+                end
+            end
+        end
+        wait(0.1)
+    end
+end)
+
+spawn(function()
+    local lastWraithCheck = 0
+    
+    while wait(1) do
+        local currentTime = tick()
+        
+        if FeatureStates.WraithNotifierEnabled and currentTime - lastWraithCheck > 2 then
+            lastWraithCheck = currentTime
+            local zombiesFolder = Workspace:FindFirstChild("Zombies")
+            if zombiesFolder then
+                for _, zombie in pairs(zombiesFolder:GetChildren()) do
+                    if zombie.Name:lower():find("wraith") or zombie.Name:lower():find("miner") then
+                        addNotification("⚠️ " .. zombie.Name .. " Detected!", Color3.fromRGB(255, 100, 100))
+                        break
+                    end
+                end
+            end
+        end
+    end
+end)
+
+CombatButton.Activated:Connect(function() TabSelected(CombatFrame) end)
+VisualButton.Activated:Connect(function() TabSelected(VisualFrame) end)
+
+AimbotButton.Activated:Connect(function()
+    FeatureStates.AimbotEnabled = not FeatureStates.AimbotEnabled
+    updateIndicator(AimbotIndicatorFrame, FeatureStates.AimbotEnabled)
+        
+    if FeatureStates.AimbotEnabled then
+        addNotification("🎯 Aimbot Enabled", Color3.fromRGB(0, 255, 0))
+    else
+        addNotification("🎯 Aimbot Disabled", Color3.fromRGB(255, 100, 100))
+    end
+end)
+
+FOVButton.Activated:Connect(function()
+    FeatureStates.FOVEnabled = not FeatureStates.FOVEnabled
+    updateIndicator(FOVIndicatorFrame, FeatureStates.FOVEnabled)
+        
+    if FeatureStates.FOVEnabled == true then
+        addNotification("⚪ FOV Enabled", Color3.fromRGB(0, 255, 0))
+    else
+        addNotification("⚪ FOV Disabled", Color3.fromRGB(255, 100, 100))
+    end
+end)
+
+local function autoSkipWave()
+    if FeatureStates.AutoSkipWaveEnabled then
+       if game.Lighting.ClockTime > 6.3 and game.Lighting.ClockTime < 17 then
+             game.ReplicatedStorage.RemoteFunctions.VoteSkip:InvokeServer()
+       end
+    end
+end
+
+local function updateSlider(sliderFrame, emptyFrame, value, maxValue)
+    local percentage = math.clamp(value / maxValue, 0, 1)
+    sliderFrame.Size = UDim2.new(percentage, 0, 1, 0)
+end
+
+PrimaryLimbPartButton.Activated:Connect(function()
+    PrimaryPartSelectionFrame.Visible = not PrimaryPartSelectionFrame.Visible
+end)
+
+TorsoButton.Activated:Connect(function()
+    Settings.AimPart = "Torso"
+    PrimaryLimbPartButton.Text = "Torso"
+    PrimaryPartSelectionFrame.Visible = false
+end)
+
+HeadButton.Activated:Connect(function()
+    Settings.AimPart = "Head"
+    PrimaryLimbPartButton.Text = "Head"
+    PrimaryPartSelectionFrame.Visible = false
+end)
+
+AimbotKeyBindTextBox.FocusLost:Connect(function()
+    local keyText = AimbotKeyBindTextBox.Text:upper()
+    if keyText and #keyText == 1 then
+        local keyCode = Enum.KeyCode[keyText]
+        if keyCode then
+            Settings.AimbotKey = keyCode
+        end
+    end
+end)
+
+local function setupSlider(emptyFrame, filledFrame, callback)
+    local dragging = false
+    
+    local function updateSlider(input)
+        local relativeX = math.clamp((input.Position.X - emptyFrame.AbsolutePosition.X) / emptyFrame.AbsoluteSize.X, 0, 1)
+        filledFrame.Size = UDim2.new(relativeX, 0, 1, 0)
+        if callback then callback(relativeX) end
+    end
+    
+    emptyFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            updateSlider(input)
+        end
+    end)
+    
+    emptyFrame.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            updateSlider(input)
+        end
+    end)
+    
+    emptyFrame.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+end
+
+setupSlider(AimbotSmoothnessrameEmpty, AimbotSmoothnessrame, function(value)
+    Settings.AimbotSmoothness = value
+end)
+
+setupSlider(FovRadiusFrameEmpty, FovRadiusFrame, function(value)
+    Settings.FOVRadius = 50 + (value * 450) 
+end)
+
+AutoReloadButton.Activated:Connect(function()
+    FeatureStates.AutoReloadEnabled = not FeatureStates.AutoReloadEnabled
+    updateIndicator(AutoReloadIndicatorFrame, FeatureStates.AutoReloadEnabled)
+end)
+
+AutoSkipWaveButton.Activated:Connect(function()
+    FeatureStates.AutoSkipWaveEnabled = not FeatureStates.AutoSkipWaveEnabled
+    updateIndicator(AutoSkipWaveIndicatorFrame, FeatureStates.AutoSkipWaveEnabled)
+end)
+
+ZombieESP.Activated:Connect(function()
+    FeatureStates.ZombieESPEnabled = not FeatureStates.ZombieESPEnabled
+    updateIndicator(ZombieESPIndicatorFrame, FeatureStates.ZombieESPEnabled)
+end)
+
+WraithESP.Activated:Connect(function()
+    FeatureStates.WraithESPEnabled = not FeatureStates.WraithESPEnabled
+    updateIndicator(WraithESPIndicatorFrame, FeatureStates.WraithESPEnabled)
+end)
+
+BossESP.Activated:Connect(function()
+    FeatureStates.BossESPEnabled = not FeatureStates.BossESPEnabled
+    updateIndicator(BossESPIndicatorFrame, FeatureStates.BossESPEnabled)
+end)
+
+WraithNotifier.Activated:Connect(function()
+    FeatureStates.WraithNotifierEnabled = not FeatureStates.WraithNotifierEnabled
+    updateIndicator(WraithNotifierIndicatorFrame, FeatureStates.WraithNotifierEnabled)
+end)
+
+local colors = {
+    Color3.fromRGB(255, 0, 0),  
+    Color3.fromRGB(0, 255, 0), 
+    Color3.fromRGB(0, 0, 255), 
+    Color3.fromRGB(255, 255, 0),
+    Color3.fromRGB(255, 0, 255), 
+    Color3.fromRGB(0, 255, 255),  
+    Color3.fromRGB(255, 255, 255)
+}
+
+local function cycleColor(colorFrame)
+    local currentColor = colorFrame.BackgroundColor3
+    local currentIndex = 1
+    
+    for i, color in ipairs(colors) do
+        if color == currentColor then
+            currentIndex = i
+            break
+        end
+    end
+    
+    local nextIndex = (currentIndex % #colors) + 1
+    colorFrame.BackgroundColor3 = colors[nextIndex]
+    
+    local newColor = colors[nextIndex]
+    if colorFrame == ZombieESPColorFrame then
+        for _, espObject in pairs(ESPObjects.Zombies) do
+            espObject.box.Color = newColor
+            espObject.nameLabel.Color = newColor
+        end
+    elseif colorFrame == WraithESPColorFrame then
+        for _, espObject in pairs(ESPObjects.Wraiths) do
+            espObject.box.Color = newColor
+            espObject.nameLabel.Color = newColor
+        end
+    elseif colorFrame == BossESPColorFrame then
+        for _, espObject in pairs(ESPObjects.Bosses) do
+            espObject.box.Color = newColor
+            espObject.nameLabel.Color = newColor
+        end
+    end
+end
+
+ZombieESPColorFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        cycleColor(ZombieESPColorFrame)
+    end
+end)
+
+WraithESPColorFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        cycleColor(WraithESPColorFrame)
+    end
+end)
+
+BossESPColorFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        cycleColor(BossESPColorFrame)
+    end
+end)
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    
+    if input.KeyCode == Settings.AimbotKey then
+        FeatureStates.AimbotEnabled = not FeatureStates.AimbotEnabled
+        updateIndicator(AimbotIndicatorFrame, FeatureStates.AimbotEnabled)
+        
+        if FeatureStates.AimbotEnabled then
+            addNotification("🎯 Aimbot Enabled", Color3.fromRGB(0, 255, 0))
+        else
+            addNotification("🎯 Aimbot Disabled", Color3.fromRGB(255, 100, 100))
+        end
+    end
+end)
+
+spawn(function()
+    while wait(1) do
+        autoSkipWave()
+    end
+end)
+
+game.UserInputService.InputBegan:Connect(function(input, ischat)
+    if ischat then return end
+    if input.KeyCode == Enum.KeyCode.LeftAlt then MainFrame.Visible = not MainFrame.Visible end
+end)
+
+AimbotSmoothnessrame.Size = UDim2.new(0.5, 0, 1, 0) 
+FovRadiusFrame.Size = UDim2.new(0.4, 0, 1, 0)
+
+Settings.AimbotSmoothness = 0.5
+Settings.FOVRadius = 200
+
+local function cleanup()
+    for _, espTable in pairs(ESPObjects) do
+        for _, espObject in pairs(espTable) do
+            if espObject.box then espObject.box:Remove() end
+            if espObject.nameLabel then espObject.nameLabel:Remove() end
+        end
+    end
+    
+    for _, notification in pairs(NotificationQueue) do
+        if notification then notification:Destroy() end
+    end
+    
+    print("Katty Hub - Cleanup completed")
+end
+
+game.Players.LocalPlayer.AncestryChanged:Connect(function()
+    if not game.Players.LocalPlayer.Parent then
+        cleanup()
+    end
+end)
+
+addNotification("🎮 Katty Hub Loaded!", Color3.fromRGB(100, 255, 100))
+addNotification("Press Left Alt to toggle GUI", Color3.fromRGB(200, 200, 200))
+
+print("===========================================")
+print("🎮 Katty Hub - Final Stand 2 GUI Loaded!")
+print("===========================================")
+print("Features:")
+print("  ✅ Aimbot with customizable smoothness")
+print("  ✅ FOV Circle with adjustable radius")
+print("  ✅ Auto Reload system")
+print("  ✅ Auto Skip Wave")
+print("  ✅ ESP for Zombies, Wraiths, and Bosses")
+print("  ✅ Wraith notifiers")
+print("  ✅ Customizable keybinds and colors")
+print("===========================================")
+print("Press Left Alt to show/hide the GUI")
+print("Current aimbot key: " .. Settings.AimbotKey.Name)
